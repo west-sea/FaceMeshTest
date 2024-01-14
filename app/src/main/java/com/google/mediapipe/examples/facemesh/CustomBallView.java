@@ -1,5 +1,7 @@
 package com.google.mediapipe.examples.facemesh;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -52,7 +54,7 @@ public class CustomBallView extends View {
 
     private void createBalls(int width, int height) {
         Random random = new Random();
-        int numberOfBalls = 20;
+        int numberOfBalls = 5;
         for (int i = 0; i < numberOfBalls; i++) {
             int radius = 30;
             int randomX = radius + random.nextInt(width - 2 * radius);
@@ -70,24 +72,38 @@ public class CustomBallView extends View {
         for (Ball ball : balls) {
             ball.update(getWidth(), getHeight());
             ball.draw(canvas, paint);
+            // Log.d(TAG, "Ball Position - X: " + ball.getX() + ", Y: " + ball.getY());
         }
     }
 
     //ball 먹는거 판정/공 없애기
     public void updateBallsWithMouthCoordinates(float mouthTop, float mouthBottom, float mouthLeft, float mouthRight) {
 
-        Log.v("mouth index", "mouthTop: "+ mouthTop*getHeight() + "mouthBottom: "+ mouthBottom);
+        Log.v("Mouth Coordinates", "mouthLeft: " + (mouthLeft * getWidth()) + ", mouthRight: " + (mouthRight * getWidth()));
+
+        // 공의 개수 만큼 count
         for (int i = 0; i < balls.size(); i++) {
+            // i번째 공에 대해서
             Ball ball = balls.get(i);
-            Log.v("ball index", "ballTop: "+ ball.top + "ballBottom: "+ ball.bottom);
-            // Ball 클래스에 정의된 top, bottom, left, right는 공의 위치를 나타내는 좌표입니다.
+            // 좌표상에서의 ball의 y좌표 위 및 아래
+            Log.v("Ball Coordinates", "Ball X: " + ball.getX() + ", Ball Y: " + ball.getY());
+
             // 여기서는 입의 좌표와 비교하여 공이 입 안에 있는지 확인합니다.
             //if (ball.top < mouthTop*getHeight() && ball.bottom > mouthBottom*getHeight() && ball.left > mouthLeft*getWidth() && ball.right < mouthRight*getWidth()) {
-            if (ball.top < getHeight()-mouthTop*getHeight()) {
-                // 조건에 맞는 경우, 공을 제거합니다.
+
+            // ball의 윗부분이 입의 윗부분보다 위에 있을 경우
+            //if (ball.top < mouthTop * getHeight()) {
+
+            // 조건에 맞는 경우, 공을 제거합니다.
+            // 조건1] 공의 윗부분이 입술의 윗부분보다 아래에 있을때           - 보류
+            // 조건2] 공의 아랫부분이 입술의 아랫부분보다 위쪽에 있을때        - 보류
+            // 조건3] 공의 왼쪽이 입술의 왼쪽보다 오른쪽에 있을때            - 적용
+            // 조건4] 공의 오른쪽이 입술의 오른쪽보다 왼쪽에 있을때           - 적용
+            if(  (ball.bottom < mouthBottom*getHeight()) && (ball.top > mouthTop*getHeight()) && (ball.left>mouthLeft*getWidth()) && (ball.right<mouthRight*getWidth())){
+                Log.d("Ball Removed", "Ball X: " + ball.getX() + ", Ball Y: " + ball.getY() + " removed by mouth coordinates mouthLeft: " + (mouthLeft * getWidth()) + ", mouthRight: " + (mouthRight * getWidth()));
                 balls.remove(i);
                 i--; // 리스트에서 항목을 제거한 후 인덱스를 조정합니다.
-                Log.v("Eat!!!", "eat ball");
+                Log.d("Eat", "Ball eaten!!!");
             }
         }
     }

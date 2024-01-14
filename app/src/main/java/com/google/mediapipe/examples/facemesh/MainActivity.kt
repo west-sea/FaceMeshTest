@@ -91,6 +91,13 @@ class MainActivity : AppCompatActivity() {
                 val leftEnd = faceLandmarks.landmarkList[78] // 왼쪽 끝 랜드마크
                 val rightEnd = faceLandmarks.landmarkList[308] // 오른쪽 끝 랜드마크
 
+                // New log statements to output the values of these landmarks
+//                Log.d(TAG, "Upper Lip Landmark: X=${upperLip.x}, Y=${upperLip.y}, Z=${upperLip.z}")
+//                Log.d(TAG, "Lower Lip Landmark: X=${lowerLip.x}, Y=${lowerLip.y}, Z=${lowerLip.z}")
+//                Log.d(TAG, "Left End Landmark: X=${leftEnd.x}, Y=${leftEnd.y}, Z=${leftEnd.z}")
+//                Log.d(TAG, "Right End Landmark: X=${rightEnd.x}, Y=${rightEnd.y}, Z=${rightEnd.z}")
+
+
                 //공 먹기 구현
                 ballView.updateBallsWithMouthCoordinates(upperLip.y, lowerLip.y, leftEnd.x, rightEnd.x)
 

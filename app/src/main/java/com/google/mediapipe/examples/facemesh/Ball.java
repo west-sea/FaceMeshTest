@@ -15,6 +15,14 @@ public class Ball {
     public int left;
     public int right;
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public Ball(int x, int y, int radius, int dx, int dy, int color) {
         this.x = x;
         this.y = y;
@@ -24,8 +32,8 @@ public class Ball {
         this.color = color;
 
         //상하좌우 끝점 좌표
-        this.top = y + radius;
-        this.bottom = y - radius;
+        this.top = y - radius;
+        this.bottom = y + radius;
         this.left = x - radius;
         this.right = x + radius;
     }
@@ -33,6 +41,12 @@ public class Ball {
     public void update(int screenWidth, int screenHeight) {
         x += dx;
         y += dy;
+
+        // ********* UPDATE가 되지 않아서 문제였을지도 *********
+        this.top = y - radius;
+        this.bottom = y + radius;
+        this.left = x - radius;
+        this.right = x + radius;
 
         // Collision with edges
         if (x < radius || x > screenWidth - radius) {

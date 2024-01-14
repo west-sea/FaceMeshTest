@@ -12,6 +12,11 @@ import java.nio.ByteOrder
 
 /* A custom implementation of { @link ResultGlRenderer } to render { @link FaceMeshResult }. */
 class FaceMeshResultGlRenderer : ResultGlRenderer<FaceMeshResult> {
+
+    // 시간 인식 조절
+    private var lastExecutionTime = 0L
+    private val throttleInterval = 700L
+
     companion object {
         private val TESSELATION_COLOR = floatArrayOf(0.75f, 0.75f, 0.75f, 0.5f)
         private const val TESSELATION_THICKNESS = 5
@@ -76,6 +81,14 @@ class FaceMeshResultGlRenderer : ResultGlRenderer<FaceMeshResult> {
     }
 
     override fun renderResult(result: FaceMeshResult?, projectionMatrix: FloatArray?) {
+
+        // 랜더링 결과 시간 주기
+        val currentTime = System.currentTimeMillis()
+        if(currentTime - lastExecutionTime < throttleInterval){
+            return
+        }
+        lastExecutionTime = currentTime
+
         if (result == null) {
             return
         }
