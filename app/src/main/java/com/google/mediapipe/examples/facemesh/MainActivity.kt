@@ -122,6 +122,12 @@ class MainActivity : AppCompatActivity() {
                         binding.openmouth.text = "" // 또는 다른 상태의 텍스트를 설정할 수 있습니다.
                     }
                 }
+                Log.d("score", "Score: "+MyGlobals.getInstance().score)
+                //binding.score.text =MyGlobals.getInstance().score?.toString()
+                runOnUiThread {
+                    binding.score.text = MyGlobals.getInstance().score?.toString() ?: "0"
+                }
+
             }
 
             glSurfaceView.setRenderData(result)

@@ -21,6 +21,8 @@ public class CustomBallView extends View {
     private Paint paint;
     private Handler handler;
     private Runnable runnable;
+    private Integer score = 0;
+
 
     public CustomBallView(Context context) {
         super(context);
@@ -107,6 +109,10 @@ public class CustomBallView extends View {
                 balls.remove(i);
                 i--; // 리스트에서 항목을 제거한 후 인덱스를 조정합니다.
                 Log.d("Eat", "Ball eaten!!!");
+
+                //점수
+                score = score + 1;
+                MyGlobals.getInstance().setScore(score);
             }
         }
     }
