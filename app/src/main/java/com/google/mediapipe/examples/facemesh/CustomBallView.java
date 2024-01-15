@@ -57,6 +57,8 @@ public class CustomBallView extends View {
         int numberOfBalls = 5;
         for (int i = 0; i < numberOfBalls; i++) {
             int radius = 30;
+            //int randomX = radius+400 + random.nextInt(width - 2 * radius - 400);
+            //int randomY = radius+300 + random.nextInt(height - 2 * radius - 300);
             int randomX = radius + random.nextInt(width - 2 * radius);
             int randomY = radius + random.nextInt(height - 2 * radius);
             int randomDx = random.nextInt(10) - 5;
@@ -79,13 +81,14 @@ public class CustomBallView extends View {
     //ball 먹는거 판정/공 없애기
     public void updateBallsWithMouthCoordinates(float mouthTop, float mouthBottom, float mouthLeft, float mouthRight) {
 
-        Log.v("Mouth Coordinates", "mouthLeft: " + (mouthLeft * getWidth()) + ", mouthRight: " + (mouthRight * getWidth()));
+        //Log.v("Mouth Coordinates", "mouthLeft: " + (mouthLeft * getWidth()) + ", mouthRight: " + (mouthRight * getWidth())+", mouthTop: " + (mouthTop * getHeight()) + ", mouthBottom: " + (mouthBottom * getHeight()));
 
         // 공의 개수 만큼 count
         for (int i = 0; i < balls.size(); i++) {
             // i번째 공에 대해서
             Ball ball = balls.get(i);
             // 좌표상에서의 ball의 y좌표 위 및 아래
+            Log.v("Mouth Coordinates", "mouthLeft: " + (mouthLeft * getWidth()) + ", mouthRight: " + (mouthRight * getWidth())+", mouthTop: " + (mouthTop * getHeight()) + ", mouthBottom: " + (mouthBottom * getHeight()));
             Log.v("Ball Coordinates", "Ball X: " + ball.getX() + ", Ball Y: " + ball.getY());
 
             // 여기서는 입의 좌표와 비교하여 공이 입 안에 있는지 확인합니다.
@@ -99,7 +102,7 @@ public class CustomBallView extends View {
             // 조건2] 공의 아랫부분이 입술의 아랫부분보다 위쪽에 있을때        - 보류
             // 조건3] 공의 왼쪽이 입술의 왼쪽보다 오른쪽에 있을때            - 적용
             // 조건4] 공의 오른쪽이 입술의 오른쪽보다 왼쪽에 있을때           - 적용
-            if(  (ball.bottom < mouthBottom*getHeight()) && (ball.top > mouthTop*getHeight()) && (ball.left>mouthLeft*getWidth()) && (ball.right<mouthRight*getWidth())){
+            if(((float) ball.bottom < mouthBottom*getHeight()*1.05) && ((float) ball.top > mouthTop*getHeight()*0.95) && ((float) ball.left>mouthLeft*getWidth()*0.7) && ((float) ball.right<mouthRight*getWidth()*1.3)){
                 Log.d("Ball Removed", "Ball X: " + ball.getX() + ", Ball Y: " + ball.getY() + " removed by mouth coordinates mouthLeft: " + (mouthLeft * getWidth()) + ", mouthRight: " + (mouthRight * getWidth()));
                 balls.remove(i);
                 i--; // 리스트에서 항목을 제거한 후 인덱스를 조정합니다.

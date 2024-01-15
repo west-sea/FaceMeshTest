@@ -1,7 +1,11 @@
 package com.google.mediapipe.examples.facemesh;
 
+import static android.opengl.ETC1.getHeight;
+import static android.opengl.ETC1.getWidth;
+
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.View;
 
 public class Ball {
     private int x;
@@ -49,12 +53,19 @@ public class Ball {
         this.right = x + radius;
 
         // Collision with edges
+        //if (x < radius+400 || x > screenWidth - radius-400) {
         if (x < radius || x > screenWidth - radius) {
             dx = -dx;
         }
+        //if (y < radius+300 || y > screenHeight - radius-300) {
         if (y < radius || y > screenHeight - radius) {
             dy = -dy;
         }
+
+        this.top = y - radius;
+        this.bottom = y + radius;
+        this.left = x - radius;
+        this.right = x + radius;
     }
 
     public void draw(Canvas canvas, Paint paint) {

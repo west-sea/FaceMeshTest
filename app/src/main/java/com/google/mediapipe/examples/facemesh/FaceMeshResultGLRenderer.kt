@@ -15,7 +15,7 @@ class FaceMeshResultGlRenderer : ResultGlRenderer<FaceMeshResult> {
 
     // 시간 인식 조절
     private var lastExecutionTime = 0L
-    private val throttleInterval = 700L
+    private val throttleInterval = 10L
 
     companion object {
         private val TESSELATION_COLOR = floatArrayOf(0.75f, 0.75f, 0.75f, 0.5f)
